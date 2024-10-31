@@ -18,17 +18,37 @@ export const links: LinksFunction = () => {
 export default function Index() {
   const [locations, setLocations] = useState<any[]>([]);
   const [locationName, setLocationName] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12; 
+  const totalPages = Math.ceil(locations.length / itemsPerPage);
+  const numberOfItems = locations.length;
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = locations.slice(startIndex, endIndex);
+  
 
   const handleRetrieveLocations = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       const res = await fetch("https://rickandmortyapi.com/api/location/?name=" + locationName);
       const data = await res.json();
-      setLocations(data.results);
+      if(data != undefined){
+        setLocations(data.results);
+      }
     } catch (error){
       console.log("Failed to retrieve data", error);
     }
   }
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-16">
@@ -50,15 +70,34 @@ export default function Index() {
             </input>
             <button className="transition ease-in-out bg-gray-100 ml-4 w-1/6 rounded">Search</button>
           </form>
-          <ul>
-            {locations.map((location: any) => (
-              <li key={location.id} className="text-gray-100">
+          <ul className="pt-6">
+            {currentItems.map((location: any) => (
+              <li key={location.id} className="text-gray-100 pt-2">
                 <a href={`/location/${location.name}`}>Name: {location.name},
                    Dimension: {location.dimension}, 
                    Type: {location.type}</a>
               </li>
             ))}
           </ul>
+          <div className={`pagination-controls pt-4 flex justify-center ${numberOfItems === 0 ? 'hidden' : ''}`}>
+        <button 
+          onClick={goToPreviousPage} 
+          disabled={currentPage === 1} 
+          className="px-4 py-2 mr-2 text-gray-100 bg-gray-600 rounded"
+        >
+          Previous
+        </button>
+        <span className="text-gray-100">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button 
+          onClick={goToNextPage} 
+          disabled={currentPage === totalPages} 
+          className="px-4 py-2 ml-2 text-gray-100 bg-gray-600 rounded"
+        >
+          Next
+        </button>
+      </div>
         </div>
       </div>
     </div>
