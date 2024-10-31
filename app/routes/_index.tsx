@@ -40,10 +40,15 @@ export default function Index() {
             Your one-stop shop for the worlds, dimensions, and characters. 
           </h2>
         </header>
-        <div>
-          <form onSubmit={handleRetrieveLocations}>
-            <input type="text" id="worldname" placeholder="World Name" onChange={(e) => setLocationName(e.target.value)}></input>
-            <button className="bg-gray-100">Search</button>
+        <div className="w-full">
+          <form className="flex justify-center" onSubmit={handleRetrieveLocations}>
+            <input 
+            className="h-7 w-1/3 pl-3 focus:w-2/3 focus:h-10 transition-all duration-300 ease-in-out" 
+            type="text" id="worldname" 
+            placeholder=" World Name" 
+            onChange={(e) => setLocationName(e.target.value)}>
+            </input>
+            <button className="transition ease-in-out bg-gray-100 ml-4 w-1/6 rounded">Search</button>
           </form>
           <ul>
             {locations.map((location: any) => (
