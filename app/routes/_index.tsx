@@ -70,34 +70,47 @@ export default function Index() {
             </input>
             <button className="transition ease-in-out bg-gray-100 ml-4 w-1/6 rounded">Search</button>
           </form>
-          <ul className="pt-6">
-            {currentItems.map((location: any) => (
-              <li key={location.id} className="text-gray-100 pt-2">
-                <a href={`/location/${location.name}`}>Name: {location.name},
-                   Dimension: {location.dimension}, 
-                   Type: {location.type}</a>
-              </li>
-            ))}
-          </ul>
+          <table className="table-auto w-full pt-6 text-gray-100 ">
+            <thead className={`${numberOfItems === 0 ? 'hidden' : ''}`}>
+              <tr>
+                <th className="px-4 py-2 text-left">Name</th>
+                <th className="px-4 py-2 text-left">Dimension</th>
+                <th className="px-4 py-2 text-left">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((location: any) => (
+                <tr key={location.id} className="hover:bg-green-800">
+                  <td className="border-t border-b px-4 py-2">
+                    <a href={`/location/${location.name}`} className="text-blue-400 hover:underline">
+                      {location.name}
+                    </a>
+                  </td>
+                  <td className="border-t border-b px-4 py-2">{location.dimension || "Unknown"}</td>
+                  <td className="border-t border-b px-4 py-2">{location.type || "Unknown"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           <div className={`pagination-controls pt-4 flex justify-center ${numberOfItems === 0 ? 'hidden' : ''}`}>
-        <button 
-          onClick={goToPreviousPage} 
-          disabled={currentPage === 1} 
-          className="px-4 py-2 mr-2 text-gray-100 bg-gray-600 rounded"
-        >
-          Previous
-        </button>
-        <span className="text-gray-100">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button 
-          onClick={goToNextPage} 
-          disabled={currentPage === totalPages} 
-          className="px-4 py-2 ml-2 text-gray-100 bg-gray-600 rounded"
-        >
-          Next
-        </button>
-      </div>
+            <button 
+              onClick={goToPreviousPage} 
+              disabled={currentPage === 1} 
+              className="px-4 py-2 mr-2 text-gray-100 bg-gray-600 rounded"
+            >
+              Previous
+            </button>
+            <span className="text-gray-100">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button 
+              onClick={goToNextPage} 
+              disabled={currentPage === totalPages} 
+              className="px-4 py-2 ml-2 text-gray-100 bg-gray-600 rounded"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
