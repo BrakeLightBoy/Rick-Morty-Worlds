@@ -50,14 +50,29 @@ export default function LocationPage() {
       </header>
       <h2 className="text-xl font-bold text-gray-100">Inhabitants</h2>
       <div className="w-full flex justify-center">
-        <ul className="pt-6">
+        <table className="table-auto w-2/3 pt-6 text-gray-100 ">
+          <thead className={`${numberOfItems === 0 ? 'hidden' : ''}`}>
+            <tr>
+              <th className="px-4 py-2 text-left">Name</th>
+              <th className="px-4 py-2 text-left">Status</th>
+              <th className="px-4 py-2 text-left">Species</th>
+              <th className="px-4 py-2 text-left">Gender</th>
+            </tr>
+          </thead>
+          <tbody>
             {currentItems.map((resident: any) => (
-              <li key={resident.id} className="text-gray-100 pt-2">
-                  <img className="h-20 max-w-full rounded-lg inline" src={resident.image}></img> 
-                  <h3 className="inline whitespace-nowrap pl-5">{resident.name}</h3>
-              </li>
+              <tr key={resident.id} className="hover:bg-green-800">
+                <td className="border-t border-b px-4 py-2">
+                  <img className="h-20 max-w-full rounded-lg inline" src={resident.image}></img>
+                  <h3 className="inline whitespace-nowrap pl-5">{resident.name || "Unknown"}</h3>
+                </td>
+                <td className="border-t border-b px-4 py-2">{resident.status || "Unknown"}</td>
+                <td className="border-t border-b px-4 py-2">{resident.species || "Unknown"}</td>
+                <td className="border-t border-b px-4 py-2">{resident.gender || "Unknown"}</td>
+              </tr>
             ))}
-          </ul>
+          </tbody>
+        </table>
       </div>
       <div className={`pagination-controls pt-4 flex justify-center ${numberOfItems === 0 ? 'hidden' : ''}`}>
             <button 
